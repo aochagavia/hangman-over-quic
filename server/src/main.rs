@@ -80,6 +80,9 @@ async fn handle_connection(
         write_buf.push(indexes.len() as u8);
         write_buf.extend(indexes);
         send.write_all(&write_buf).await?;
+
+        // We won't need the stream any longer
+        send.finish().await?;
     }
 
     // The game is no longer running, and the connection will be closed on drop
